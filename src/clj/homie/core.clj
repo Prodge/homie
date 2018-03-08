@@ -2,7 +2,8 @@
   (:require [clojure.core.async :as async :refer [go <! >! <!! >!!]]
 
             [homie.router.core :as router]
-            [homie.yeelight.event :as e-yeelight])
+            [homie.yeelight.event :as e-yeelight]
+            [homie.web.core :as web])
   (:gen-class))
 
 
@@ -11,7 +12,7 @@
   (shutdown-agents))
 
 
-(defn start-app [args]
+(defn start-event-stream [args]
   (go
     (let [event-chan (async/merge [(e-yeelight/discover-lights!)])]
       (while true
@@ -21,5 +22,6 @@
 (defn -main
   [& args]
     (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app))
+    (web/start-server "8000")
     ; Unresolving blocking take - Keeps us running forever.
-    (<!! (start-app args)))
+    (<!! (start-event-stream args)))

@@ -1,5 +1,6 @@
 (ns homie.router.core
   (:require [clojure.tools.logging :as log]
+
             [homie.router.routes :as routes]))
 
 

@@ -1,6 +1,6 @@
 # homie
 
-FIXME: description
+Home Automation Brain
 
 ## Installation
 
