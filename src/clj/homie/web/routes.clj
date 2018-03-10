@@ -1,7 +1,12 @@
 (ns homie.web.routes
-  (:require [compojure.core :refer [defroutes GET POST]]))
+  (:require [clojure.core.async :refer [go <! >!]]
 
-(defn home []
+            [compojure.core :refer [defroutes GET POST]]
+            [chord.http-kit :refer [with-channel]]
+
+            [homie.state.core :as state]))
+
+(defn home [request]
   "
   <head>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">
@@ -13,5 +18,12 @@
   </body>
   ")
 
+(defn state-sync [request]
+  (with-channel request ws-ch
+    (go
+      (>! ws-ch @state/state)
+      (>! ws-ch {:test {:foo "bar"}}))))
+
 (defroutes web-routes
-(GET "/" [] (home)))
+  (GET "/" [] home)
+  (GET "/state-ws" [] state-sync))

@@ -1,7 +1,6 @@
 (ns homie.web.core
   (:require [clojure.tools.logging :as log])
   (:use homie.web.handler
-        ;ring.server.standalone
         org.httpkit.server))
 
 (defonce server (atom nil))

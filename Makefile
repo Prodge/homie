@@ -1,3 +1,7 @@
+
+uberjar: clean cljs garden
+	lein uberjar
+
 run:
 	lein run
 

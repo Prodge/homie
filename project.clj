@@ -67,8 +67,7 @@
                       :pretty-print    false}}]}
 
   :profiles {:uberjar {:aot :all}
-             :production {
-                          }
+             :production { }
              :dev {:dependencies [[binaryage/devtools "0.9.4"]
                                   [day8.re-frame/re-frame-10x "0.2.0"]
                                   [re-frisk "0.5.3"]]}})
