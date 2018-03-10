@@ -10,13 +10,11 @@
             [homie.yeelight.util :as y-util])
   (:gen-class))
 
-
 (def search-broadcast-message
-"M-SEARCH * HTTP/1.1\r
+  "M-SEARCH * HTTP/1.1\r
 HOST: 239.255.255.250:1982\r
 MAN: \"ssdp:discover\"\r
 ST: wifi_bulb")
-
 
 (defn extract-discover-message-contents
   "Given a discovery message response string, (K: V\r\nK: V...)
@@ -29,14 +27,12 @@ ST: wifi_bulb")
        (map (fn [[k v]] [(keyword (str/lower-case k)) v]))
        (into {})))
 
-
 (defn parse-light-discover-response
   "Loads the information from a light discovery broadcast response into state"
   [response]
   (->> response
        y-util/parse-udp-message
        extract-discover-message-contents))
-
 
 (defn discover-lights!
   "blocks while broadcasting for any local yeelights
@@ -47,12 +43,12 @@ ST: wifi_bulb")
 
     (stream/put! client-socket
                  {:host "239.255.255.250"
-                  :port 1982,
+                  :port 1982
                   :broadcast? true
                   :message search-broadcast-message})
 
     (stream/consume
-      (fn [msg]
-        (async/put! result-channel (router-util/encode-event :yeelight-discover (parse-light-discover-response msg))))
-      client-socket)
+     (fn [msg]
+       (async/put! result-channel (router-util/encode-event :yeelight-discover (parse-light-discover-response msg))))
+     client-socket)
     result-channel))

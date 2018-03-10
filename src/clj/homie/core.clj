@@ -6,11 +6,9 @@
             [homie.web.core :as web])
   (:gen-class))
 
-
 (defn stop-app []
   (println "stopped")
   (shutdown-agents))
-
 
 (defn start-event-stream [args]
   (go
@@ -18,10 +16,9 @@
       (while true
         (router/router (<! event-chan))))))
 
-
 (defn -main
   [& args]
-    (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app))
-    (web/start-server "8000")
+  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app))
+  (web/start-server "8000")
     ; Unresolving blocking take - Keeps us running forever.
-    (<!! (start-event-stream args)))
+  (<!! (start-event-stream args)))

@@ -7,6 +7,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.4.474"]
                  [org.clojure/tools.logging "0.4.0"]
+                 [org.clojure/clojurescript "1.9.908"]
 
                  [aleph "0.4.4"]
                  [manifold "0.1.6"]
@@ -14,11 +15,12 @@
                  [clj-time "0.14.2"]
                  [compojure "1.5.2"]
                  [ring-server "0.4.0"]
-                 [org.clojure/clojurescript "1.9.908"]
+                 [http-kit "2.2.0"]
                  [reagent "0.7.0"]
                  [re-frame "0.10.5"]
                  [com.andrewmcveigh/cljs-time "0.5.0"]
-                 [garden "1.3.2"]]
+                 [garden "1.3.2"]
+                 [jarohen/chord "0.8.1"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-garden "0.2.8"]]
@@ -38,10 +40,6 @@
   :main ^:skip-aot homie.core
 
   :target-path "target/%s"
-
-  :ring {:handler homie.web.handler/app
-         :init homie.web.handler/init
-         :destroy homie.web.handler/destroy}
 
   :cljsbuild
     {:builds
@@ -69,11 +67,8 @@
                       :pretty-print    false}}]}
 
   :profiles {:uberjar {:aot :all}
-             :production {:ring {:open-browser? false,
-                                 :stacktraces? false,
-                                 :auto-reload? false}}
-             :dev {:dependencies [[ring-mock "0.1.5"]
-                                  [ring/ring-devel "1.5.1"]
-								  [binaryage/devtools "0.9.4"]
+             :production {
+                          }
+             :dev {:dependencies [[binaryage/devtools "0.9.4"]
                                   [day8.re-frame/re-frame-10x "0.2.0"]
                                   [re-frisk "0.5.3"]]}})
