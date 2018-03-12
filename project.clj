@@ -16,10 +16,11 @@
                  [compojure "1.5.2"]
                  [ring-server "0.4.0"]
                  [http-kit "2.2.0"]
-                 [reagent "0.7.0"]
+                 [reagent "0.8.0-alpha2"]
                  [re-frame "0.10.5"]
                  [com.andrewmcveigh/cljs-time "0.5.0"]
                  [garden "1.3.2"]
+                 [reagent-material-ui "0.2.5"]
                  [jarohen/chord "0.8.1"]]
 
   :plugins [[lein-figwheel "0.5.15"]
