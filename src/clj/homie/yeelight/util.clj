@@ -4,8 +4,8 @@
 
 (defn gen-light-identifier
   "Produces a unique identifier for a light given a map of it's discovery information"
-  [{:keys [location]}]
-  (keyword location))
+  [{:keys [id]}]
+  (keyword id))
 
 
 (defn parse-udp-message

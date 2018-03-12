@@ -11,6 +11,11 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 
+
+(defn on-js-reload []
+	(console.log "Reloading Figwheel"))
+
+
 (defn dev-setup []
   (when config/debug?
     (enable-console-print!)
@@ -27,7 +32,7 @@
       (if error
         (console.log error)
         (loop []
-          (println (<! ws-channel))
+          (re-frame/dispatch-sync [:new-home (:message (<! ws-channel))] )
           (recur))))))
 
 (defn ^:export init []

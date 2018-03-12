@@ -22,7 +22,8 @@
                  [garden "1.3.2"]
                  [jarohen/chord "0.8.1"]]
 
-  :plugins [[lein-cljsbuild "1.1.5"]
+  :plugins [[lein-figwheel "0.5.15"]
+			[lein-cljsbuild "1.1.5"]
             [lein-garden "0.2.8"]]
 
   :source-paths ["src/clj"]
@@ -45,7 +46,7 @@
     {:builds
      [{:id           "dev"
        :source-paths ["src/cljs"]
-       :figwheel     {:on-jsload "homie.core/mount-root"}
+       :figwheel     {:on-jsload "homie.core/on-js-reload"}
        :compiler     {:main                 homie.core
                       :output-to            "resources/public/js/compiled/app.js"
                       :output-dir           "resources/public/js/compiled/out"
@@ -65,6 +66,8 @@
                       :optimizations   :advanced
                       :closure-defines {goog.DEBUG false}
                       :pretty-print    false}}]}
+
+  :figwheel {:css-dirs ["resources/public/css"]}
 
   :profiles {:uberjar {:aot :all}
              :production { }
