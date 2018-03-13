@@ -13,3 +13,6 @@ cljs:
 
 garden:
 	lein garden once
+
+figwheel:
+	lein figwheel

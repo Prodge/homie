@@ -20,7 +20,7 @@
     [ui/TableRow
       [ui/TableRowColumn (:name @info)]
       [ui/TableRowColumn
-        [ui/Toggle {:toggled (= "on" (:power @info))}]]
+        [ui/Toggle {:toggled (= "on" (:power @info)) :onToggle #(re-frame/dispatch [:toggle-yeelight id])}]]
       [ui/TableRowColumn
         [ui/Slider {:defaultValue (int (:bright @info)) :step 1 :min 0 :max 100}]]
       [ui/TableRowColumn (:rgb @info)]]

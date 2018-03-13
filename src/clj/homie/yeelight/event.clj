@@ -6,7 +6,7 @@
             [aleph.udp :as udp]
             [manifold.stream :as stream]
 
-            [homie.router.util :as router-util]
+            [homie.common :as c]
             [homie.yeelight.util :as y-util])
   (:gen-class))
 
@@ -49,6 +49,6 @@ ST: wifi_bulb")
 
     (stream/consume
      (fn [msg]
-       (async/put! result-channel (router-util/encode-event :yeelight-discover (parse-light-discover-response msg))))
+       (async/put! result-channel (c/encode-event :yeelight-discover (parse-light-discover-response msg))))
      client-socket)
     result-channel))

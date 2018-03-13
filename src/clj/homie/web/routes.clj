@@ -1,5 +1,6 @@
 (ns homie.web.routes
   (:require [clojure.core.async :refer [go <! >!]]
+            [clojure.tools.logging :as log]
 
             [compojure.core :refer [defroutes GET POST]]
             [chord.http-kit :refer [with-channel]]
@@ -53,7 +54,7 @@
                                                              :sat "35"
                                                              :name "Yeelight"}
                             :0x0000000000152553f {:location "yeelight://192.168.1.239:55443"
-                                                             :server "POSIX UPnP/1.0 YGLC/1"
+                                                            :server "POSIX UPnP/1.0 YGLC/1"
                                                              :id "0x0000000000155543f"
                                                              :model "color"
                                                              :fw_ver 18
@@ -68,6 +69,15 @@
                                                              :name "Yeelight"}}})
       )))
 
+(defn event-stream [request]
+  (with-channel request ws-ch
+    (go
+      (loop []
+        (let [res (<! ws-ch) ]
+          (log/info res)
+          (when res (recur)))))))
+
 (defroutes web-routes
   (GET "/" [] home)
-  (GET "/state-ws" [] state-sync))
+  (GET "/ws/state" [] state-sync)
+  (GET "/ws/event" [] event-stream))

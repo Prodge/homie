@@ -18,16 +18,16 @@
                  [http-kit "2.2.0"]
                  [reagent "0.8.0-alpha2"]
                  [re-frame "0.10.5"]
-                 [com.andrewmcveigh/cljs-time "0.5.0"]
                  [garden "1.3.2"]
                  [reagent-material-ui "0.2.5"]
+                 [com.andrewmcveigh/cljs-time "0.5.2"]
                  [jarohen/chord "0.8.1"]]
 
   :plugins [[lein-figwheel "0.5.15"]
 			[lein-cljsbuild "1.1.5"]
             [lein-garden "0.2.8"]]
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs" "src/cljc"]
 
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
