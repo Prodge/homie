@@ -20,11 +20,12 @@
     [ui/TableRow
       [ui/TableRowColumn (:name @info)]
       [ui/TableRowColumn
-        [ui/Toggle {:toggled (= "on" (:power @info)) :onToggle #(re-frame/dispatch [:toggle-yeelight id])}]]
+        [ui/Toggle {:toggled (= "on" (:power @info)) :onToggle #(re-frame/dispatch [:yeelight-power id])}]]
       [ui/TableRowColumn
-        [ui/Slider {:defaultValue (int (:bright @info)) :step 1 :min 0 :max 100}]]
-      [ui/TableRowColumn (:rgb @info)]]
-    ))
+        [ui/Slider {:defaultValue (int (:bright @info)) :step 1 :min 0 :max 100 :onChange #(re-frame/dispatch [:yeelight-brightness id %2])}]]
+      [ui/TableRowColumn (:rgb @info)]]))
+
+
 
 (defn main-panel []
   (let [yeelight-ids (re-frame/subscribe [:yeelight-ids])]
