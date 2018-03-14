@@ -5,7 +5,8 @@
             [compojure.core :refer [defroutes GET POST]]
             [chord.http-kit :refer [with-channel]]
 
-            [homie.state.core :as state]))
+            [homie.state.core :as state]
+            [homie.router.core :as router]))
 
 (defn home [request]
   "
@@ -77,7 +78,7 @@
     (go
       (loop []
         (let [res (<! ws-ch) ]
-          (log/info res)
+          (router/router (:message res))
           (when res (recur)))))))
 
 (defroutes web-routes
