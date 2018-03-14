@@ -15,3 +15,8 @@
   :yeelight-info
   (fn [db [_ id]]
     (get-in db [:home :yeelight id])))
+
+(re-frame/reg-sub
+  :menu-open?
+  (fn [db]
+    (get-in db [:global :menu :open?])))

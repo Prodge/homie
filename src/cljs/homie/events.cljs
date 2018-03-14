@@ -22,3 +22,8 @@
   (fn  [cofx  [_ id brightness]]
     {:db (assoc-in (:db cofx) [:home :yeelight id :bright] brightness)
      :publish-event [:yeelight-set {:set "bright" :to brightness}]}))
+
+(reg-event-db :toggle-menu-drawer
+    (fn [db]
+      (let [open (not (get-in db [:global :menu :open?]))]
+        (assoc-in db [:global :menu :open?] open))))

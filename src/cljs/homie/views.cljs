@@ -26,12 +26,19 @@
       [ui/TableRowColumn (:rgb @info)]]))
 
 
+(defn menu-drawer []
+  (let [open? (re-frame/subscribe [:menu-open?])]
+    [ui/Drawer {:onRequestChange #(re-frame/dispatch [:toggle-menu-drawer]) :open @open? :docked false}
+     [ui/MenuItem "Homie"]
+     [ui/MenuItem "Yeelight"]
+     [ui/MenuItem "Cameras"]]))
 
 (defn main-panel []
   (let [yeelight-ids (re-frame/subscribe [:yeelight-ids])]
 	[ui/MuiThemeProvider theme-defaults
       [:div
-        [:h2 "Homie"]
+        [ui/AppBar {:title "Homie" :onLeftIconButtonTouchTap #(re-frame/dispatch [:toggle-menu-drawer])}]
+        [menu-drawer]
         [ui/Table
           [ui/TableBody
             (for [id @yeelight-ids]
