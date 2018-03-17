@@ -3,4 +3,4 @@
 
 
 (defn yeelight-update! [identifier info]
-  (swap! state assoc identifier info))
+  (swap! state assoc-in [:yeelight identifier] info))

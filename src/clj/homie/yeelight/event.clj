@@ -7,6 +7,7 @@
             [manifold.stream :as stream]
 
             [homie.common :as c]
+            [homie.constant :as const]
             [homie.yeelight.util :as y-util])
   (:gen-class))
 
@@ -41,11 +42,13 @@ ST: wifi_bulb")
   (let [client-socket @(udp/socket {})
         result-channel (async/chan)]
 
-    (stream/put! client-socket
-                 {:host "239.255.255.250"
-                  :port 1982
-                  :broadcast? true
-                  :message search-broadcast-message})
+    (async/go (while true
+      (stream/put! client-socket
+                   {:host "239.255.255.250"
+                    :port 1982
+                    :broadcast? true
+                    :message search-broadcast-message})
+      (Thread/sleep const/yeelight-discover-broadcast-rate)))
 
     (stream/consume
      (fn [msg]

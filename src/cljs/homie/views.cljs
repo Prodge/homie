@@ -18,7 +18,7 @@
 (defn yeelight-info [id]
   (let [info (re-frame/subscribe [:yeelight-info id])]
     [ui/TableRow
-      [ui/TableRowColumn (:name @info)]
+      [ui/TableRowColumn (:id @info)]
       [ui/TableRowColumn
         [ui/Toggle {:toggled (= "on" (:power @info)) :onToggle #(re-frame/dispatch [:yeelight-power id])}]]
       [ui/TableRowColumn
