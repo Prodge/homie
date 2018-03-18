@@ -7,9 +7,10 @@
 (defn discover
   "Handles yeelight discovery broadcast messages"
   [{:keys [message timestamp]}]
+    (let [id (y-util/gen-light-identifier message)]
     (s-alter/yeelight-update!
-      (y-util/gen-light-identifier message)
-      (assoc message :last-seen timestamp)))
+      id
+      (assoc message :last-seen timestamp :name (y-util/light-name id)))))
 
 (defn set-op
   "Handles the set_ operations"

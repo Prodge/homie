@@ -1,6 +1,8 @@
 (ns homie.views
   (:require [re-frame.core :as re-frame]
             [reagent-material-ui.core :as ui]
+            [cljs-time.format :as tf]
+
             [homie.subs :as subs]))
 
 
@@ -18,12 +20,13 @@
 (defn yeelight-info [id]
   (let [info (re-frame/subscribe [:yeelight-info id])]
     [ui/TableRow
-      [ui/TableRowColumn (:id @info)]
+      [ui/TableRowColumn (:name @info)]
       [ui/TableRowColumn
         [ui/Toggle {:toggled (= "on" (:power @info)) :onToggle #(re-frame/dispatch [:yeelight-power id])}]]
       [ui/TableRowColumn
         [ui/Slider {:defaultValue (int (:bright @info)) :step 1 :min 0 :max 100 :onChange #(re-frame/dispatch [:yeelight-brightness id %2])}]]
-      [ui/TableRowColumn (:rgb @info)]]))
+      [ui/TableRowColumn (:rgb @info)]
+      [ui/TableRowColumn (tf/unparse (tf/formatters :hour-minute-second) (tf/parse (tf/formatters :basic-date-time) (:last-seen @info)))]]))
 
 
 (defn menu-drawer []
@@ -39,7 +42,14 @@
       [:div
         [ui/AppBar {:title "Homie" :onLeftIconButtonTouchTap #(re-frame/dispatch [:toggle-menu-drawer])}]
         [menu-drawer]
-        [ui/Table
+        [ui/Table {:selectable false}
+          [ui/TableHeader {:adjustForCheckbox false :displaySelectAll false}
+           [ui/TableRow
+            [ui/TableHeaderColumn "Location"]
+            [ui/TableHeaderColumn "On/Off"]
+            [ui/TableHeaderColumn "Brightness"]
+            [ui/TableHeaderColumn "Colour"]
+            [ui/TableHeaderColumn "Last Seen"]]]
           [ui/TableBody
             (for [id @yeelight-ids]
               [yeelight-info id])]]]]))
